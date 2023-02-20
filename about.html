@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Dragi12" />
+
+<meta name="date" content="2023-02-16" />
+
+<title>Bike_Share_Project</title>
+
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">My Website</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Bike_Share_Project</h1>
+<h4 class="author">Dragi12</h4>
+<h4 class="date">2023-02-16</h4>
+
+</div>
+
+
+<p>More about this website. This website is collection of our
+project</p>
+<div id="clear-environment-opsional" class="section level2">
+<h2>Clear Environment (opsional)</h2>
+<pre class="r"><code>  rm(list=ls())</code></pre>
+</div>
+<div id="install-packages" class="section level2">
+<h2>Install Packages</h2>
+<pre class="r"><code>options(repos = &quot;http://cran.rstudio.com/&quot;)
+install.packages(&quot;tidyverse&quot;)</code></pre>
+<pre><code>## Installing package into &#39;C:/Users/USER/AppData/Local/R/win-library/4.2&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre><code>## package &#39;tidyverse&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\USER\AppData\Local\Temp\RtmpYFEkoj\downloaded_packages</code></pre>
+<pre class="r"><code>install.packages(&quot;lubridate&quot;)</code></pre>
+<pre><code>## Installing package into &#39;C:/Users/USER/AppData/Local/R/win-library/4.2&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre><code>## package &#39;lubridate&#39; successfully unpacked and MD5 sums checked</code></pre>
+<pre><code>## Warning: cannot remove prior installation of package &#39;lubridate&#39;</code></pre>
+<pre><code>## Warning in file.copy(savedcopy, lib, recursive = TRUE): problem copying
+## C:\Users\USER\AppData\Local\R\win-library\4.2\00LOCK\lubridate\libs\x64\lubridate.dll
+## to
+## C:\Users\USER\AppData\Local\R\win-library\4.2\lubridate\libs\x64\lubridate.dll:
+## Permission denied</code></pre>
+<pre><code>## Warning: restored &#39;lubridate&#39;</code></pre>
+<pre><code>## 
+## The downloaded binary packages are in
+##  C:\Users\USER\AppData\Local\Temp\RtmpYFEkoj\downloaded_packages</code></pre>
+<pre class="r"><code>install.packages(&quot;janitor&quot;)</code></pre>
+<pre><code>## Installing package into &#39;C:/Users/USER/AppData/Local/R/win-library/4.2&#39;
+## (as &#39;lib&#39; is unspecified)</code></pre>
+<pre><code>## package &#39;janitor&#39; successfully unpacked and MD5 sums checked
+## 
+## The downloaded binary packages are in
+##  C:\Users\USER\AppData\Local\Temp\RtmpYFEkoj\downloaded_packages</code></pre>
+</div>
+<div id="install-library" class="section level2">
+<h2>Install library</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
+## ✔ ggplot2 3.4.1     ✔ purrr   1.0.1
+## ✔ tibble  3.1.8     ✔ dplyr   1.1.0
+## ✔ tidyr   1.3.0     ✔ stringr 1.5.0
+## ✔ readr   2.1.4     ✔ forcats 1.0.0
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(lubridate)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;lubridate&#39;
+## 
+## The following objects are masked from &#39;package:base&#39;:
+## 
+##     date, intersect, setdiff, union</code></pre>
+<pre class="r"><code>library(janitor)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;
+## 
+## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(ggplot2)</code></pre>
+</div>
+<div
+id="import-dataframefrom-january-to-june-this-data-downloaded-from-httpsdivvybikes.comsystem-data"
+class="section level2">
+<h2>Import dataframe(from january to june) this data downloaded from <a
+href="https://divvybikes.com/system-data"
+class="uri">https://divvybikes.com/system-data</a></h2>
+<pre class="r"><code>df1&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202201-divvy-tripdata.csv&quot;)
+df2&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202202-divvy-tripdata.csv&quot;)
+df3&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202203-divvy-tripdata.csv&quot;)
+df4&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202204-divvy-tripdata.csv&quot;)
+df5&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202205-divvy-tripdata.csv&quot;)
+df6&lt;- read.csv(&quot;C:\\Users\\USER\\Documents\\Data\\202206-divvy-tripdata.csv&quot;)</code></pre>
+</div>
+<div id="combine-6-data-frame-to-one-data-frame" class="section level2">
+<h2>Combine 6 data frame to one data frame</h2>
+<pre class="r"><code>bike_rides &lt;- rbind(df1,df2,df3,df4,df5,df6)
+dim(bike_rides)</code></pre>
+<pre><code>## [1] 2278732      13</code></pre>
+</div>
+<div id="removecleaning-empty-data-null" class="section level2">
+<h2>Remove/Cleaning empty data (NULL)</h2>
+<pre class="r"><code>bike_rides &lt;- janitor::remove_empty(bike_rides,which = c(&quot;cols&quot;))
+bike_rides &lt;- janitor::remove_empty(bike_rides,which = c(&quot;rows&quot;))
+dim(bike_rides)</code></pre>
+<pre><code>## [1] 2278732      13</code></pre>
+</div>
+<div id="change-format-data-to-date-time" class="section level2">
+<h2>change format data to date time</h2>
+<pre class="r"><code>bike_rides$Ymd &lt;- as.Date(bike_rides$started_at)
+bike_rides$started_at &lt;- lubridate::ymd_hms(bike_rides$started_at)
+bike_rides$ended_at &lt;- lubridate::ymd_hms(bike_rides$ended_at)</code></pre>
+</div>
+<div id="create-new-column-for-hour" class="section level2">
+<h2>Create new column for hour</h2>
+<pre class="r"><code>bike_rides$start_hour &lt;- lubridate::hour(bike_rides$started_at)
+bike_rides$end_hour &lt;- lubridate::hour(bike_rides$ended_at)</code></pre>
+</div>
+<div id="create-new-column-for-duration" class="section level2">
+<h2>Create new column for duration</h2>
+<pre class="r"><code>bike_rides$Hours &lt;- difftime(bike_rides$ended_at, bike_rides$started_at, units = &quot;hours&quot;)
+bike_rides$mins &lt;- difftime(bike_rides$ended_at,bike_rides$started_at,units = &quot;mins&quot;)</code></pre>
+</div>
+<div id="create-new-data-frame-filter-duration-0"
+class="section level2">
+<h2>Create new data frame, filter duration &gt; 0</h2>
+<pre class="r"><code>df &lt;- bike_rides %&gt;% filter(Hours&gt;0)
+dim(df)</code></pre>
+<pre><code>## [1] 2278559      18</code></pre>
+</div>
+<div id="remove-rows-contains-na" class="section level2">
+<h2>Remove rows contains NA</h2>
+<pre class="r"><code>df &lt;- df %&gt;% drop_na()
+dim(df)</code></pre>
+<pre><code>## [1] 2276036      18</code></pre>
+</div>
+<div id="select-column-drop-some-column-dont-need"
+class="section level2">
+<h2>Select column (drop some column don’t need)</h2>
+<pre class="r"><code>df &lt;- df %&gt;% select(-ride_id,-end_station_id,-end_station_name)</code></pre>
+</div>
+<div id="create-plot-number-bike-by-hour-for-previous-6-month"
+class="section level2">
+<h2>Create plot number bike by hour for previous 6 month</h2>
+<pre class="r"><code>bike_rides %&gt;% count(start_hour,sort = T) %&gt;% ggplot() +
+  geom_line(aes(x=start_hour,y=n))+
+  scale_y_continuous(labels = comma) + 
+  labs(title =&quot;Garph count of number bike ride by hour(Previous 6 month) &quot;, x = &quot;Hours&quot;,y = &quot;number of bike&quot;)</code></pre>
+<p><img src="about_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<div id="change-log" class="section level3">
+<h3>Change log</h3>
+<ol style="list-style-type: decimal">
+<li>Import previous 6 data from divvybike</li>
+<li>Combine data to one data frame</li>
+<li>Clean empty data (NUll) Total rows : 2278732</li>
+<li>Change fromat date n add new column</li>
+<li>Remove data with negative trip duration Total rows : 2278559</li>
+<li>Remove rows contains (NA) Total rows : 2276036 7.Drop some column
+8.Plot graph</li>
+</ol>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
